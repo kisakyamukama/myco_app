@@ -14,17 +14,18 @@ class Question {
       required this.correctAnswer,
       required this.incorrectAnswers});
 
-  Question.fromJson(Map<String, dynamic> json) {
-    category = json['category'];
-    type = json['type'];
-    difficulty = json['difficulty'];
-    question = json['question'];
-    correctAnswer = json['correct_answer'];
-    incorrectAnswers = json['incorrect_answers'].cast<String>();
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
+        category: json['category'],
+        type: json['type'],
+        difficulty: json['difficulty'],
+        question: json['question'],
+        correctAnswer: json['correct_answer'],
+        incorrectAnswers: json['incorrect_answers'].cast<String>());
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  <String, dynamic>{};
     data['category'] = this.category;
     data['type'] = this.type;
     data['difficulty'] = this.difficulty;
