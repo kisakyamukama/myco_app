@@ -40,7 +40,8 @@ class DatabaseProvider {
         /*SQLITE doesn't have boolean type
         so we store isDone as integer where 0 is false
         and 1 is true*/
-        "is_done INTEGER "
+        "is_done INTEGER,  "
+        "is_synched INTEGER default 0 "
         ")");
   }
 }

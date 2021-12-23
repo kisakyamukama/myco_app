@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:myco/todo/core/database/database.dart';
 import 'package:myco/todo/core/model/todo.dart';
 
@@ -19,7 +20,11 @@ class TodoDao {
     final db = await dbProvider.database;
 
     List<Map<String, dynamic>>? result;
-    if (query != null || query != "") {
+    // return unsynched
+    if (query != null && query.contains("is_synched")) {
+      result =
+          await db.query(todoTABLE, columns: columns, where: 'is_synched = 0');
+    } else if (query != null || query != "") {
       // if (query.isNotEmpty) {
       result = await db.query(todoTABLE,
           columns: columns,
@@ -68,5 +73,27 @@ class TodoDao {
     final db = await dbProvider.database;
     String sql = "ALTER TABLE $tableName  ADD COLUMN $columns";
     db.execute(sql);
+  }
+
+  Future synchronize() async {
+    try {
+      // alterTable('Todo', 'is_synched INTEGER default 0');
+      List<Todo> todos = await getTodos(query: "is_synched = 0", columns: []);
+      debugPrint('${todos.length}');
+      for (Todo todo in todos) {
+        debugPrint(todo.id.toString());
+        debugPrint('${todo.isSynchronized}');
+        // store online
+
+        // update todo Status
+        await updateTodo(Todo(
+            id: todo.id,
+            description: todo.description,
+            isDone: todo.isDone,
+            isSynchronized: true));
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

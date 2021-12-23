@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myco/bloc/network/network_bloc.dart';
 import 'package:myco/quiz/bloc/quiz_bloc.dart';
 import 'package:myco/router.dart';
+import 'package:myco/todo/core/bloc/synchronize_todo_data.dart/synchronizetodo_bloc.dart';
 
 void main() {
   BlocOverrides.runZoned(
@@ -42,6 +43,10 @@ class App extends StatelessWidget {
         ),
         BlocProvider<NetworkBloc>(
           create: (context) => NetworkBloc(connectivity: connectivity),
+        ),
+
+          BlocProvider<SynchronizetodoBloc>(
+          create: (context) => SynchronizetodoBloc(),
         ),
       ],
       child: MaterialApp(

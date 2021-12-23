@@ -1,11 +1,11 @@
 import 'package:myco/todo/core/dao/todo_dao.dart';
 import 'package:myco/todo/core/model/todo.dart';
 
-
 class TodoRepository {
   final todoDao = TodoDao();
 
-  Future getAllTodos({ String? query}) => todoDao.getTodos(query: query, columns: []);
+  Future getAllTodos({String? query}) =>
+      todoDao.getTodos(query: query, columns: []);
 
   Future insertTodo(Todo todo) => todoDao.createTodo(todo);
 
@@ -15,4 +15,6 @@ class TodoRepository {
 
   //We are not going to use this in the demo
   Future deleteAllTodos() => todoDao.deleteAllTodos();
+
+   Future synchronizeTodos() => todoDao.synchronize();
 }
