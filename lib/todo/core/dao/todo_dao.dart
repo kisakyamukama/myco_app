@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:myco/todo/core/database/database.dart';
 import 'package:myco/todo/core/model/todo.dart';
 
@@ -15,21 +14,23 @@ class TodoDao {
 
   //Get All Todo items
   //Searches if query string was passed
-  Future<List<Todo>> getTodos({required List<String> columns, required String query}) async {
+  Future<List<Todo>> getTodos(
+      {required List<String> columns, String? query}) async {
     final db = await dbProvider.database;
 
     List<Map<String, dynamic>>? result;
-    if (query != null) {
-      if (query.isNotEmpty)
+    if (query != null || query != "") {
+      // if (query.isNotEmpty) {
         result = await db.query(todoTABLE,
             columns: columns,
             where: 'description LIKE ?',
             whereArgs: ["%$query%"]);
+      // }
     } else {
       result = await db.query(todoTABLE, columns: columns);
     }
 
-    List<Todo> todos = result!.isNotEmpty
+    List<Todo> todos = result.isNotEmpty
         ? result.map((item) => Todo.fromDatabaseJson(item)).toList()
         : [];
     return todos;

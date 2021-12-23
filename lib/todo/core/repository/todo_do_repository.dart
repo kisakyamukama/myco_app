@@ -5,7 +5,7 @@ import 'package:myco/todo/core/model/todo.dart';
 class TodoRepository {
   final todoDao = TodoDao();
 
-  Future getAllTodos({required String query}) => todoDao.getTodos(query: query, columns: []);
+  Future getAllTodos({ String? query}) => todoDao.getTodos(query: query, columns: []);
 
   Future insertTodo(Todo todo) => todoDao.createTodo(todo);
 

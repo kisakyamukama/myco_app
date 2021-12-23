@@ -6,11 +6,11 @@ import 'package:sqflite/sqflite.dart';
 final todoTABLE = 'Todo';
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
-  late Database _database;
+  Database? _database;
   Future<Database> get database async {
-    if (_database != null) return _database;
+    if (_database != null) return _database!;
     _database = await createDatabase();
-    return _database;
+    return _database!;
   }
   createDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();

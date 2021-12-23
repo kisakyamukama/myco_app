@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:myco/todo/core/model/todo.dart';
 import 'package:myco/todo/core/repository/todo_do_repository.dart';
 
@@ -19,10 +20,15 @@ class TodoBloc {
     getTodos();
   }
 
-  getTodos({ String? query}) async {
+  getTodos({String? query}) async {
     //sink is a way of adding data reactively to the stream
     //by registering a new event
-    _todoController.sink.add(await _todoRepository.getAllTodos(query: query!));
+    try {
+      _todoController.sink
+          .add(await _todoRepository.getAllTodos(query: query??""));
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   addTodo(Todo todo) async {

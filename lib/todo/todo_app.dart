@@ -33,7 +33,7 @@ class TodoApp extends StatelessWidget {
         bottomNavigationBar: BottomAppBar(
           color: Colors.white,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 border: Border(
               top: BorderSide(color: Colors.grey, width: 0.3),
             )),
@@ -41,7 +41,7 @@ class TodoApp extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.menu,
                       color: Colors.indigoAccent,
                       size: 28,
@@ -50,7 +50,7 @@ class TodoApp extends StatelessWidget {
                       //just re-pull UI for testing purposes
                       todoBloc.getTodos();
                     }),
-                Expanded(
+                const Expanded(
                   child: Text(
                     "Todo",
                     style: TextStyle(
@@ -63,7 +63,7 @@ class TodoApp extends StatelessWidget {
                 ),
                 Wrap(children: <Widget>[
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.search,
                       size: 28,
                       color: Colors.indigoAccent,
@@ -72,7 +72,7 @@ class TodoApp extends StatelessWidget {
                       _showTodoSearchSheet(context);
                     },
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(right: 5),
                   )
                 ])
@@ -82,14 +82,14 @@ class TodoApp extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
-          padding: EdgeInsets.only(bottom: 25),
+          padding: const EdgeInsets.only(bottom: 25),
           child: FloatingActionButton(
             elevation: 5.0,
             onPressed: () {
               _showAddTodoSheet(context);
             },
             backgroundColor: Colors.white,
-            child: Icon(
+            child: const Icon(
               Icons.add,
               size: 32,
               color: Colors.indigoAccent,
@@ -103,20 +103,20 @@ class TodoApp extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         builder: (builder) {
-          return new Padding(
+          return Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: new Container(
+            child: Container(
               color: Colors.transparent,
-              child: new Container(
+              child: Container(
                 height: 230,
-                decoration: new BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: new BorderRadius.only(
-                        topLeft: const Radius.circular(10.0),
-                        topRight: const Radius.circular(10.0))),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0))),
                 child: Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: 15, top: 25.0, right: 15, bottom: 30),
                   child: ListView(
                     children: <Widget>[
@@ -129,7 +129,7 @@ class TodoApp extends StatelessWidget {
                               controller: _todoDescriptionFormController,
                               textInputAction: TextInputAction.newline,
                               maxLines: 4,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 21, fontWeight: FontWeight.w400),
                               autofocus: true,
                               decoration: const InputDecoration(
@@ -142,19 +142,19 @@ class TodoApp extends StatelessWidget {
                                 if (value!.isEmpty) {
                                   return 'Empty description!';
                                 }
-                                return value!.contains('')
+                                return value.contains('')
                                     ? 'Do not use the @ char.'
                                     : null;
                               },
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 5, top: 15),
+                            padding: const EdgeInsets.only(left: 5, top: 15),
                             child: CircleAvatar(
                               backgroundColor: Colors.indigoAccent,
                               radius: 18,
                               child: IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.save,
                                   size: 22,
                                   color: Colors.white,
@@ -195,20 +195,20 @@ class TodoApp extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         builder: (builder) {
-          return new Padding(
+          return Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: new Container(
+            child: Container(
               color: Colors.transparent,
-              child: new Container(
+              child: Container(
                 height: 230,
-                decoration: new BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: new BorderRadius.only(
-                        topLeft: const Radius.circular(10.0),
-                        topRight: const Radius.circular(10.0))),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0))),
                 child: Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: 15, top: 25.0, right: 15, bottom: 30),
                   child: ListView(
                     children: <Widget>[
@@ -221,7 +221,7 @@ class TodoApp extends StatelessWidget {
                               controller: _todoSearchDescriptionFormController,
                               textInputAction: TextInputAction.newline,
                               maxLines: 4,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w400),
                               autofocus: true,
                               decoration: const InputDecoration(
@@ -239,12 +239,12 @@ class TodoApp extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 5, top: 15),
+                            padding: const EdgeInsets.only(left: 5, top: 15),
                             child: CircleAvatar(
                               backgroundColor: Colors.indigoAccent,
                               radius: 18,
                               child: IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.search,
                                   size: 22,
                                   color: Colors.white,
@@ -298,14 +298,14 @@ class TodoApp extends StatelessWidget {
       but returned returned 0 records of Todo from DB.
       If that the case show user that you have empty Todos
       */
-      return snapshot.data!.length != 0
+      return snapshot.data!.isNotEmpty
           ? ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, itemPosition) {
                 Todo todo = snapshot.data![itemPosition];
-                final Widget dismissibleCard = new Dismissible(
+                final Widget dismissibleCard = Dismissible(
                   background: Container(
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Align(
                         alignment: Alignment.centerLeft,
@@ -325,7 +325,7 @@ class TodoApp extends StatelessWidget {
                     todoBloc.deleteTodoById(todo.id!);
                   },
                   direction: _dismissDirection,
-                  key: new ObjectKey(todo),
+                  key: ObjectKey(todo),
                   child: Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(color: Colors.grey[200]!, width: 0.5),
@@ -344,22 +344,19 @@ class TodoApp extends StatelessWidget {
                           */
                             todoBloc.updateTodo(todo);
                           },
-                          child: Container(
-                            //decoration: BoxDecoration(),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: todo.isDone
-                                  ? Icon(
-                                      Icons.done,
-                                      size: 26.0,
-                                      color: Colors.indigoAccent,
-                                    )
-                                  : Icon(
-                                      Icons.check_box_outline_blank,
-                                      size: 26.0,
-                                      color: Colors.tealAccent,
-                                    ),
-                            ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: todo.isDone
+                                ? const Icon(
+                                    Icons.done,
+                                    size: 26.0,
+                                    color: Colors.indigoAccent,
+                                  )
+                                : const Icon(
+                                    Icons.check_box_outline_blank,
+                                    size: 26.0,
+                                    color: Colors.tealAccent,
+                                  ),
                           ),
                         ),
                         title: Text(
@@ -377,12 +374,11 @@ class TodoApp extends StatelessWidget {
                 return dismissibleCard;
               },
             )
-          : Container(
-              child: Center(
-              //this is used whenever there 0 Todo
-              //in the data base
-              child: noTodoMessageWidget(),
-            ));
+          : Center(
+          //this is used whenever there 0 Todo
+          //in the data base
+          child: noTodoMessageWidget(),
+            );
     } else {
       return Center(
         /*since most of our I/O operations are done
@@ -398,26 +394,22 @@ class TodoApp extends StatelessWidget {
   Widget loadingData() {
     //pull todos again
     todoBloc.getTodos();
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CircularProgressIndicator(),
-            Text("Loading...",
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500))
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          CircularProgressIndicator(),
+          Text("Loading...",
+              style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500))
+        ],
       ),
     );
   }
 
   Widget noTodoMessageWidget() {
-    return Container(
-      child: Text(
-        "Start adding Todo...",
-        style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-      ),
+    return const Text(
+      "Start adding Todo...",
+      style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
     );
   }
 
