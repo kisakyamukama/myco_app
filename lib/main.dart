@@ -1,12 +1,15 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myco/bloc/network/network_bloc.dart';
 import 'package:myco/quiz/bloc/quiz_bloc.dart';
-import 'package:myco/quiz/ui/quiz_app.dart';
-import 'package:myco/todo/todo_app.dart';
+import 'package:myco/router.dart';
 
 void main() {
   BlocOverrides.runZoned(
-    () => runApp(const App()),
+    () => runApp(App(
+      connectivity: Connectivity(),
+    )),
     blocObserver: AppBlocObserver(),
   );
 }
@@ -27,7 +30,9 @@ class AppBlocObserver extends BlocObserver {
 }
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key, required this.connectivity}) : super(key: key);
+  final Connectivity connectivity;
+  final AppRouter _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -35,69 +40,18 @@ class App extends StatelessWidget {
         BlocProvider<QuizBloc>(
           create: (context) => QuizBloc(),
         ),
+        BlocProvider<NetworkBloc>(
+          create: (context) => NetworkBloc(connectivity: connectivity),
+        ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Myco',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const Myco(),
+        onGenerateRoute: _appRouter.onGeneratedRoute,
       ),
     );
   }
-}
-
-class Myco extends StatefulWidget {
-  const Myco({Key? key}) : super(key: key);
-
-  @override
-  State<Myco> createState() => _MycoState();
-}
-
-class _MycoState extends State<Myco> {
-  List<Concept> concepts = [
-    Concept('Quiz App', (context) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const QuizApp()));
-    }),
-    Concept('Todo App', (context) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) =>  TodoApp()));
-    })
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Bloc ')),
-      body: Column(
-        children: [
-          const Text('Myco'),
-          Expanded(
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemCount: concepts.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () => concepts[index].onTap(context),
-                    child: Card(
-                      color: Colors.amber,
-                      child: Center(child: Text(concepts[index].conceptName)),
-                    ),
-                  );
-                }),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class Concept {
-  final String conceptName;
-  final Function onTap;
-
-  Concept(this.conceptName, this.onTap);
 }

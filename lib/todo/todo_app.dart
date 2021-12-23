@@ -4,7 +4,7 @@ import 'package:myco/todo/core/bloc/todo_bloc.dart';
 import 'package:myco/todo/core/model/todo.dart';
 
 class TodoApp extends StatelessWidget {
-   TodoApp({ Key? key }) : super(key: key);
+  TodoApp({Key? key}) : super(key: key);
 
   //We load our Todo BLoC that is used to get
   //the stream of Todo for StreamBuilder
@@ -15,21 +15,26 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.white,
-        systemNavigationBarColor: Colors.white,
-        systemNavigationBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    //     statusBarColor: Colors.white,
+    //     systemNavigationBarColor: Colors.white,
+    //     systemNavigationBarIconBrightness: Brightness.dark,
+    //     statusBarBrightness: Brightness.dark));
     return Scaffold(
         resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          leading:Container(),
+          title:
+              const Text('Myco _ todo', style: TextStyle(color: Colors.black)),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          centerTitle: true,
+        ),
         body: SafeArea(
             child: Container(
                 color: Colors.white,
                 padding:
                     const EdgeInsets.only(left: 2.0, right: 2.0, bottom: 2.0),
-                child: Container(
-                    //This is where the magic starts
-                    child: getTodosWidget()))),
+                child: Container(child: getTodosWidget()))),
         bottomNavigationBar: BottomAppBar(
           color: Colors.white,
           child: Container(
@@ -337,7 +342,7 @@ class TodoApp extends StatelessWidget {
                           onTap: () {
                             //Reverse the value
                             todo.isDone = !todo.isDone;
-                          /*
+                            /*
                             Another magic.
                             This will update Todo isDone with either
                             completed or not
@@ -375,9 +380,9 @@ class TodoApp extends StatelessWidget {
               },
             )
           : Center(
-          //this is used whenever there 0 Todo
-          //in the data base
-          child: noTodoMessageWidget(),
+              //this is used whenever there 0 Todo
+              //in the data base
+              child: noTodoMessageWidget(),
             );
     } else {
       return Center(

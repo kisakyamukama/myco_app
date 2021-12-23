@@ -21,10 +21,10 @@ class TodoDao {
     List<Map<String, dynamic>>? result;
     if (query != null || query != "") {
       // if (query.isNotEmpty) {
-        result = await db.query(todoTABLE,
-            columns: columns,
-            where: 'description LIKE ?',
-            whereArgs: ["%$query%"]);
+      result = await db.query(todoTABLE,
+          columns: columns,
+          where: 'description LIKE ?',
+          whereArgs: ["%$query%"]);
       // }
     } else {
       result = await db.query(todoTABLE, columns: columns);
@@ -62,5 +62,11 @@ class TodoDao {
     );
 
     return result;
+  }
+
+  void alterTable(String tableName, String columns) async {
+    final db = await dbProvider.database;
+    String sql = "ALTER TABLE $tableName  ADD COLUMN $columns";
+    db.execute(sql);
   }
 }
