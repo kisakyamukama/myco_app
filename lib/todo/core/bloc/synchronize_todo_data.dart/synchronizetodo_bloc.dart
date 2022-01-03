@@ -17,7 +17,11 @@ class SynchronizetodoBloc
       emit(SynchronizetodoSynchronizing());
       try {
         TodoRepository _todoRepository = TodoRepository();
-        await _todoRepository.synchronizeTodos();
+        await _todoRepository.synchronizeTodos().then((data){
+          if(data == true){
+            emit(SynchronizetodoSucceeded());
+          }
+        });
       } catch (e) {
         emit(SynchronizetodoFailed(message: e.toString()));
       }

@@ -21,3 +21,5 @@ class SynchronizetodoFailed extends SynchronizetodoState {
   @override
   List<Object> get props => [message];
 }
+
+class SynchronizetodoSucceeded extends SynchronizetodoState {}

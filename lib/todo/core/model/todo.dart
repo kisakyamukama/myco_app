@@ -16,7 +16,6 @@ class Todo {
       this.isDone = false,
       this.isSynchronized = false});
   factory Todo.fromDatabaseJson(Map<String, dynamic> data) {
-
     return Todo(
       //This will be used to convert JSON objects that
       //are coming from querying the database and converting
@@ -37,6 +36,13 @@ class Todo {
         "id": id,
         "description": description,
         "is_done": isDone == false ? 0 : 1,
-        "is_synchronized": isDone == false ? 0 : 1,
+        "is_synched": isSynchronized == false ? 0 : 1,
+      };
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "description": description,
+        "is_done": isDone,
+        "is_synched": isSynchronized,
       };
 }

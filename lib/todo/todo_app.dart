@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myco/todo/core/bloc/synchronize_todo_data.dart/synchronizetodo_bloc.dart';
 import 'package:myco/todo/core/bloc/todo_bloc.dart';
 import 'package:myco/todo/core/model/todo.dart';
 
@@ -12,6 +13,7 @@ class TodoApp extends StatelessWidget {
 
   //Allows Todo card to be dismissable horizontally
   final DismissDirection _dismissDirection = DismissDirection.horizontal;
+  SynchronizetodoBloc _synchronizetodoBloc = SynchronizetodoBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class TodoApp extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          leading:Container(),
+          leading: Container(),
           title:
               const Text('Myco _ todo', style: TextStyle(color: Colors.black)),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -176,6 +178,7 @@ class TodoApp extends StatelessWidget {
                                     Todo
                                     */
                                     todoBloc.addTodo(newTodo);
+                                    _synchronizetodoBloc.add(StartTodoSynchronization());
 
                                     //dismisses the bottomsheet
                                     Navigator.pop(context);

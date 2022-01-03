@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:myco/constants/constants.dart';
 import 'package:myco/todo/core/database/database.dart';
 import 'package:myco/todo/core/model/todo.dart';
+import 'package:http/http.dart' as http;
 
 class TodoDao {
   final dbProvider = DatabaseProvider.dbProvider;
@@ -81,19 +84,39 @@ class TodoDao {
       List<Todo> todos = await getTodos(query: "is_synched = 0", columns: []);
       debugPrint('${todos.length}');
       for (Todo todo in todos) {
-        debugPrint(todo.id.toString());
-        debugPrint('${todo.isSynchronized}');
         // store online
 
-        // update todo Status
-        await updateTodo(Todo(
-            id: todo.id,
-            description: todo.description,
-            isDone: todo.isDone,
-            isSynchronized: true));
+        var body = jsonEncode(<String, dynamic>{
+          "id": todo.id,
+          "description": todo.description,
+          "isDone": todo.isDone
+        });
+
+        await storeDataRemotely(body: body).then((response) async {
+          debugPrint(response.body);
+          if (response.statusCode == 200) {
+            // update todo Status
+            await updateTodo(Todo(
+                id: todo.id,
+                description: todo.description,
+                isDone: todo.isDone,
+                isSynchronized: true));
+          } else {
+            throw Exception(jsonDecode(response.body)['message']);
+          }
+        });
       }
+
+      return true;
     } catch (e) {
+      debugPrint(e.toString());
       throw Exception(e);
     }
+  }
+
+  Future storeDataRemotely({required var body}) async {
+    return await http.post(Uri.parse(localUrl), headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    }, body: body);
   }
 }

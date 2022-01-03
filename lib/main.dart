@@ -1,12 +1,17 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:myco/bloc/login/login_bloc.dart';
 import 'package:myco/bloc/network/network_bloc.dart';
 import 'package:myco/quiz/bloc/quiz_bloc.dart';
 import 'package:myco/router.dart';
 import 'package:myco/todo/core/bloc/synchronize_todo_data.dart/synchronizetodo_bloc.dart';
 
-void main() {
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  GetStorage.init();
   BlocOverrides.runZoned(
     () => runApp(App(
       connectivity: Connectivity(),
@@ -38,6 +43,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+          BlocProvider<LoginBloc>(
+            create: (context) => LoginBloc(),
+          ),
         BlocProvider<QuizBloc>(
           create: (context) => QuizBloc(),
         ),
