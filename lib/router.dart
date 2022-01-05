@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myco/apps.dart';
 import 'package:myco/auth/login.dart';
 import 'package:myco/devotion/devotion_app.dart';
+import 'package:myco/diaryApp/diary_app.dart';
+import 'package:myco/diaryApp/ui/create_journal.dart';
 import 'package:myco/quiz/ui/quiz_app.dart';
 import 'package:myco/todo/todo_app.dart';
 
@@ -26,7 +28,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const DevotionApp());
         break;
       case 'financialTrackerApp':
-         return MaterialPageRoute(builder: (_) => const DevotionApp());
+        return MaterialPageRoute(builder: (_) => const DevotionApp());
+        break;
+      case 'diaryApp':
+        return MaterialPageRoute(builder: (_) => const DiaryApp());
+        break;
+      case 'createJournal':
+        return MaterialPageRoute(builder: (_) => const CreateJournalScreen());
         break;
 
       default:

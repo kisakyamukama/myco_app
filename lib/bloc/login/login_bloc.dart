@@ -25,6 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     if (event is CheckIfuserLoggedIn) {
       var loggedUser = UserSession.instance.getSession();
+      debugPrint('user logged in check $loggedUser');
 
       if (loggedUser != null) {
         User user = User.fromJson(loggedUser);
@@ -44,6 +45,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         var userLoginJson = jsonDecode(response.body);
         UserSession.instance.saveSession(userLoginJson);
         User user = User.fromJson(userLoginJson);
+
+        var loggedUser = UserSession.instance.getSession();
+      debugPrint('logged in user json $loggedUser');
         return LoginState(status: LoginStatus.success, user: user);
       }
       return const LoginState(

@@ -25,6 +25,9 @@ class _MycoState extends State<Myco> {
     }),
     Concept('Financial Tracker App', (context) {
       Navigator.pushNamed(context, 'financialTrackerApp');
+    }),
+    Concept('Diary App', (context) {
+      Navigator.pushNamed(context, 'diaryApp');
     })
   ];
 

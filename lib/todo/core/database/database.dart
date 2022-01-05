@@ -4,7 +4,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-final todoTABLE = 'Todo';
+const todoTABLE = 'Todo';
+const diaryTABLE = 'Diary';
 
 class DatabaseProvider {
   static final DatabaseProvider dbProvider = DatabaseProvider();
@@ -18,7 +19,7 @@ class DatabaseProvider {
   createDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     //"ReactiveTodo.db is our database instance name
-    String path = join(documentsDirectory.path, "ReactiveTodo.db");
+    String path = join(documentsDirectory.path, "mycoapp.db");
     var database = await openDatabase(path,
         version: 1, onCreate: initDB, onUpgrade: onUpgrade);
     return database;
@@ -41,6 +42,14 @@ class DatabaseProvider {
         so we store isDone as integer where 0 is false
         and 1 is true*/
         "is_done INTEGER,  "
+        "is_synched INTEGER default 0 "
+        ")");
+
+         await database.execute("CREATE TABLE $diaryTABLE ("
+        "id INTEGER PRIMARY KEY, "
+        "journal TEXT NOT NULL, "
+        "highlight TEXT, "
+        "date TEXT NOT NULL,"
         "is_synched INTEGER default 0 "
         ")");
   }
