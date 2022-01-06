@@ -115,7 +115,7 @@ class TodoDao {
   }
 
   Future storeDataRemotely({required var body}) async {
-    return await http.post(Uri.parse(localUrl), headers: <String, String>{
+    return await http.post(Uri.parse(remoteUrl + '/todo'), headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     }, body: body);
   }

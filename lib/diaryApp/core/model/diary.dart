@@ -1,5 +1,5 @@
 class Diary {
-  int? id;
+  var id;
   String journal;
   String highlight;
   String date;
@@ -21,6 +21,14 @@ class Diary {
     );
   }
 
+  factory Diary.fromJson(Map<String, dynamic> data) {
+    return Diary(
+        id: data['_id'],
+        journal: data['journal'],
+        date: data['createdAt'],
+        highlight: data['highlight']??"");
+  }
+
   Map<String, dynamic> toDatabaseJson() => {
         "id": id,
         "journal": journal,
@@ -29,11 +37,6 @@ class Diary {
         "is_synched": isSynchronized == false ? 0 : 1,
       };
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "journal": journal,
-        "highlight": highlight,
-        "date": date,
-        "is_synched": isSynchronized,
-      };
+  Map<String, dynamic> toJson() =>
+      {"journal": journal, "highlight": highlight, "date": date};
 }

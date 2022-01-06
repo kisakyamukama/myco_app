@@ -8,8 +8,7 @@ import 'package:myco/quiz/bloc/quiz_bloc.dart';
 import 'package:myco/router.dart';
 import 'package:myco/todo/core/bloc/synchronize_todo_data.dart/synchronizetodo_bloc.dart';
 
-void main() async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GetStorage.init();
   BlocOverrides.runZoned(
@@ -43,27 +42,29 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-          BlocProvider<LoginBloc>(
-            create: (context) => LoginBloc(),
-          ),
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(),
+        ),
         BlocProvider<QuizBloc>(
           create: (context) => QuizBloc(),
         ),
         BlocProvider<NetworkBloc>(
           create: (context) => NetworkBloc(connectivity: connectivity),
         ),
-
-          BlocProvider<SynchronizetodoBloc>(
+        BlocProvider<SynchronizetodoBloc>(
           create: (context) => SynchronizetodoBloc(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Myco',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Myco',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          onGenerateRoute: _appRouter.onGeneratedRoute,
         ),
-        onGenerateRoute: _appRouter.onGeneratedRoute,
       ),
     );
   }

@@ -5,8 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:myco/auth/user_session.dart';
+import 'package:myco/constants/constants.dart';
 import 'package:myco/core/model/user.dart';
 import 'package:myco/core/repository/auth_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -38,6 +40,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<LoginState> _mapEventToState(LoginSubmittedEvent event) async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       Response response = await AuthRepository.login(
           username: event.username, password: event.password);
       debugPrint(response.body);
@@ -47,7 +50,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         User user = User.fromJson(userLoginJson);
 
         var loggedUser = UserSession.instance.getSession();
-      debugPrint('logged in user json $loggedUser');
+        prefs.setString(USERTOKEN, user.accessToken);
+        debugPrint('logged in user json $loggedUser');
         return LoginState(status: LoginStatus.success, user: user);
       }
       return const LoginState(

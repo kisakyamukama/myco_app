@@ -1,11 +1,12 @@
 import 'package:http/http.dart' as http;
+import 'package:myco/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String USERTOKEN = 'userToken';
 
 class Repository {
-  static const String uri =
-      'http://192.168.43.147:8080/api'; //'https://sigt-beth-api.herokuapp.com/api';
+  static const String uri = remoteUrl;
+      // 'http://192.168.43.147:8080/api'; //'https://sigt-beth-api.herokuapp.com/api';
 
   static Future login(var body) async {
     return await http.post(Uri.parse(uri + '/auth/signin'), body: body);
